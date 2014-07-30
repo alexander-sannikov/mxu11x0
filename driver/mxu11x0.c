@@ -900,7 +900,7 @@ static int mxu1_open(struct tty_struct *tty, struct usb_serial_port *port, struc
 			     MXU1_PIPE_TIMEOUT_ENABLE | 
 			     (MXU1_TRANSFER_TIMEOUT << 2));
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -919,7 +919,7 @@ static int mxu1_open(struct tty_struct *tty, struct usb_serial_port *port, struc
 		port->tty->low_latency = MXU1_DEFAULT_LOW_LATENCY;
 #else
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	if (port->port.tty)
         port->port.tty->low_latency = MXU1_DEFAULT_LOW_LATENCY;
 	port_number = port->number - port->serial->minor;
@@ -1070,7 +1070,7 @@ static void mxu1_close(struct tty_struct *tty, struct usb_serial_port *port, str
 	int status = 0;
 	int do_up;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1095,7 +1095,7 @@ static void mxu1_close(struct tty_struct *tty, struct usb_serial_port *port, str
 	
 	mxport->mxp_write_urb_in_use = 0;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
     port_number = port->number - port->serial->minor;
 #else
     port_number = port->port_number - port->minor;
@@ -1142,7 +1142,7 @@ static int mxu1_write(struct tty_struct *tty, struct usb_serial_port *port, cons
 	struct mxu1_port *mxport = usb_get_serial_port_data(port);
 
 	
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1182,7 +1182,7 @@ struct usb_serial_port *port = tty->driver_data;
 	int room = 0;
 	unsigned long flags;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1213,7 +1213,7 @@ static int mxu1_chars_in_buffer(struct tty_struct *tty)
 	int chars = 0;
 	unsigned long flags;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1247,7 +1247,7 @@ struct usb_serial_port *port = tty->driver_data;
 	struct tty_struct *tty;
 #endif
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1286,7 +1286,7 @@ static void mxu1_unthrottle(struct tty_struct *tty)
 #endif		
 	int status = 0;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1321,7 +1321,7 @@ static int mxu1_get_icount(struct tty_struct *tty,
 	struct async_icount cnow = mxport->mxp_icount;
 
 	dbg("%s - (%d) TIOCGICOUNT RX=%d, TX=%d",
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
             __func__, port->number,
 #else
             __func__, port->port_number,
@@ -1363,7 +1363,7 @@ static int mxu1_ioctl(struct tty_struct *tty,
 	struct mxu1_port *mxport = usb_get_serial_port_data(port);
 	struct async_icount cnow;
 	struct async_icount cprev;
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d, cmd = 0x%04X", __FUNCTION__, port->number, cmd);
 #else
 	dbg("%s - port %d, cmd = 0x%04X", __FUNCTION__, port->port_number, cmd);
@@ -1374,7 +1374,7 @@ static int mxu1_ioctl(struct tty_struct *tty,
 
 	switch (cmd) {
 		case TIOCGSERIAL:
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
             dbg("%s - (%d) TIOCGSERIAL", __FUNCTION__, port->number);
 #else
             dbg("%s - (%d) TIOCGSERIAL", __FUNCTION__, port->port_number);
@@ -1382,7 +1382,7 @@ static int mxu1_ioctl(struct tty_struct *tty,
 			return mxu1_get_serial_info(mxport, (struct serial_struct __user *)arg);
 
 		case TIOCSSERIAL:
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
             dbg("%s - (%d) TIOCSSERIAL", __FUNCTION__, port->number);
 #else
             dbg("%s - (%d) TIOCSSERIAL", __FUNCTION__, port->port_number);
@@ -1390,7 +1390,7 @@ static int mxu1_ioctl(struct tty_struct *tty,
 			return mxu1_set_serial_info(mxport, (struct serial_struct __user *)arg);
 
 		case TIOCMIWAIT:
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
             dbg("%s - (%d) TIOCMIWAIT", __FUNCTION__, port->number);
 #else
             dbg("%s - (%d) TIOCMIWAIT", __FUNCTION__, port->port_number);
@@ -1417,7 +1417,7 @@ static int mxu1_ioctl(struct tty_struct *tty,
 			break;
 
 		case TIOCGICOUNT:
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 			dbg("%s - (%d) TIOCGICOUNT RX=%d, TX=%d", __FUNCTION__, 
                     port->number, mxport->mxp_icount.rx, mxport->mxp_icount.tx);
 #else
@@ -1429,7 +1429,7 @@ static int mxu1_ioctl(struct tty_struct *tty,
 			return 0;
 
 		case MOXA_SET_INTERFACE:
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 			dbg("%s - port%d MOXA_SET_INTERFACE=%d",__FUNCTION__,port->number,(int)arg);
 #else
 			dbg("%s - port%d MOXA_SET_INTERFACE=%d",__FUNCTION__,
@@ -1497,7 +1497,7 @@ static void mxu1_set_termios(struct tty_struct *tty1, struct usb_serial_port *po
 	int baud;
 	int status = 0;
 	int port_number = 0; 	unsigned int mcr;
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
     port_number = port->number - port->serial->minor;
 
 	dbg("%s - port %d", __FUNCTION__, port->number);
@@ -1664,7 +1664,7 @@ static int mxu1_tiocmget(struct tty_struct *tty)
 	unsigned int msr;
 	unsigned int mcr;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1708,7 +1708,7 @@ static int mxu1_tiocmset(struct tty_struct *tty,
 	struct mxu1_port *mxport = usb_get_serial_port_data(port);
 	unsigned int mcr;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1949,7 +1949,7 @@ static void mxu1_bulk_out_callback(struct urb *urb)
 	struct device *dev = &urb->dev->dev;
 #endif
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -1991,7 +1991,7 @@ static void mxu1_recv(struct mxu1_port *mxport,
 	                  unsigned char *data, int length)
 {
 	int cnt;
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))		
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))		
     struct tty_struct *tty;
 #if(LINUX_VERSION_CODE < KERNEL_VERSION(2,6,27))
 	tty = mxport->mxp_port->tty;
@@ -2127,7 +2127,7 @@ static void mxu1_send(struct mxu1_port *mxport)
 #endif	
 	unsigned long flags;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -2216,7 +2216,7 @@ static int mxu1_get_lsr(struct mxu1_port *mxport)
 	int port_number = 0;
     struct mxu1_port_status *data;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
     port_number =  port->number - port->serial->minor;
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
@@ -2260,7 +2260,7 @@ static int mxu1_get_serial_info(struct mxu1_port *mxport,
 	memset(&ret_serial, 0, sizeof(ret_serial));
 
 	ret_serial.type = PORT_16550A;
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
     ret_serial.line = port->serial->minor;
 #else
     ret_serial.line = port->minor;
@@ -2388,7 +2388,7 @@ static void mxu1_drain(struct mxu1_port *mxport, unsigned long timeout, int flus
 	wait_queue_t wait;
 	unsigned long flags;
 
-#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 	dbg("%s - port %d", __FUNCTION__, port->number);
 #else
 	dbg("%s - port %d", __FUNCTION__, port->port_number);
