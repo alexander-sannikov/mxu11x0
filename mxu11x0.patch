@@ -5,7 +5,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  			     MXU1_PIPE_TIMEOUT_ENABLE | 
  			     (MXU1_TRANSFER_TIMEOUT << 2));
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 -
 +#else
@@ -19,7 +19,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  		port->tty->low_latency = MXU1_DEFAULT_LOW_LATENCY;
  #else
 +
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +	if (port->port.tty)
 +        port->port.tty->low_latency = MXU1_DEFAULT_LOW_LATENCY;
 +	port_number = port->number - port->serial->minor;
@@ -41,7 +41,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	int status = 0;
  	int do_up;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 -			 
 +#else
@@ -56,7 +56,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	mxport->mxp_write_urb_in_use = 0;
  
 -	port_number = port->number - port->serial->minor;
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +    port_number = port->number - port->serial->minor;
 +#else
 +    port_number = port->port_number - port->minor;
@@ -70,7 +70,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	struct mxu1_port *mxport = usb_get_serial_port_data(port);
  
 +	
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -82,7 +82,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	int room = 0;
  	unsigned long flags;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -94,7 +94,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	int chars = 0;
  	unsigned long flags;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -107,7 +107,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	struct tty_struct *tty;
  #endif
 +
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -119,7 +119,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  #endif		
  	int status = 0;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -132,7 +132,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  
  	dbg("%s - (%d) TIOCGICOUNT RX=%d, TX=%d",
 -		__func__, port->number,
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +            __func__, port->number,
 +#else
 +            __func__, port->port_number,
@@ -145,7 +145,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	struct async_icount cnow;
  	struct async_icount cprev;
 -
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d, cmd = 0x%04X", __FUNCTION__, port->number, cmd);
 +#else
 +	dbg("%s - port %d, cmd = 0x%04X", __FUNCTION__, port->port_number, cmd);
@@ -157,7 +157,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	switch (cmd) {
  		case TIOCGSERIAL:
 -			dbg("%s - (%d) TIOCGSERIAL", __FUNCTION__, port->number);
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +            dbg("%s - (%d) TIOCGSERIAL", __FUNCTION__, port->number);
 +#else
 +            dbg("%s - (%d) TIOCGSERIAL", __FUNCTION__, port->port_number);
@@ -166,7 +166,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  
  		case TIOCSSERIAL:
 -			dbg("%s - (%d) TIOCSSERIAL", __FUNCTION__, port->number);
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +            dbg("%s - (%d) TIOCSSERIAL", __FUNCTION__, port->number);
 +#else
 +            dbg("%s - (%d) TIOCSSERIAL", __FUNCTION__, port->port_number);
@@ -175,7 +175,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  
  		case TIOCMIWAIT:
 -			dbg("%s - (%d) TIOCMIWAIT", __FUNCTION__, port->number);
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +            dbg("%s - (%d) TIOCMIWAIT", __FUNCTION__, port->number);
 +#else
 +            dbg("%s - (%d) TIOCMIWAIT", __FUNCTION__, port->port_number);
@@ -194,7 +194,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  
  		case TIOCGICOUNT:
 -			dbg("%s - (%d) TIOCGICOUNT RX=%d, TX=%d", __FUNCTION__, port->number, mxport->mxp_icount.rx, mxport->mxp_icount.tx);
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +			dbg("%s - (%d) TIOCGICOUNT RX=%d, TX=%d", __FUNCTION__, 
 +                    port->number, mxport->mxp_icount.rx, mxport->mxp_icount.tx);
 +#else
@@ -206,7 +206,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  			return 0;
  
  		case MOXA_SET_INTERFACE:
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  			dbg("%s - port%d MOXA_SET_INTERFACE=%d",__FUNCTION__,port->number,(int)arg);
 +#else
 +			dbg("%s - port%d MOXA_SET_INTERFACE=%d",__FUNCTION__,
@@ -222,7 +222,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
 -	int port_number = port->number - port->serial->minor;
 -	unsigned int mcr;
 +	int port_number = 0; 	unsigned int mcr;
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +    port_number = port->number - port->serial->minor;
  
  	dbg("%s - port %d", __FUNCTION__, port->number);
@@ -238,7 +238,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	unsigned int msr;
  	unsigned int mcr;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -250,7 +250,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	struct mxu1_port *mxport = usb_get_serial_port_data(port);
  	unsigned int mcr;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -262,7 +262,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	struct device *dev = &urb->dev->dev;
  #endif
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -275,7 +275,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  {
  	int cnt;
 -	struct tty_struct *tty;
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))		
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))		
 +    struct tty_struct *tty;
  #if(LINUX_VERSION_CODE < KERNEL_VERSION(2,6,27))
  	tty = mxport->mxp_port->tty;
@@ -298,7 +298,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  #endif	
  	unsigned long flags;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
@@ -315,7 +315,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
 +	int port_number = 0;
 +    struct mxu1_port_status *data;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +    port_number =  port->number - port->serial->minor;
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
@@ -330,7 +330,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  
  	ret_serial.type = PORT_16550A;
 -	ret_serial.line = port->serial->minor;
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
 +    ret_serial.line = port->serial->minor;
 +#else
 +    ret_serial.line = port->minor;
@@ -342,7 +342,7 @@ diff -Nur mxu11x0/driver/mxu11x0.c mxu11x0-git/driver/mxu11x0.c
  	wait_queue_t wait;
  	unsigned long flags;
  
-+#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,14,0))
++#if(LINUX_VERSION_CODE < KERNEL_VERSION(3,11,0))
  	dbg("%s - port %d", __FUNCTION__, port->number);
 +#else
 +	dbg("%s - port %d", __FUNCTION__, port->port_number);
